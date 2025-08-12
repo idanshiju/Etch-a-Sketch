@@ -120,8 +120,8 @@ button {
   font-size: 1rem;
 }
 
-#eraser:hover {
-  background-color: white;
+#eraser.active {
+  background-color: #ffcccb;
 }
 
 .screen {

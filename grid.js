@@ -2,9 +2,8 @@ let isMouseDown = false;
 let gridSize = 16; // starting grid size
 const minGrid = 1; // smallest size
 const maxGrid = 640; // largest size
-let erase = false;
+let isEraser = false;
 let clear = false;
-
 
 let knobRotation = 0;
 let isRotating = false;
@@ -27,7 +26,6 @@ clearBtn.addEventListener("click", () => {
     box.dataset.darkness = 0;
   });
 });
-
 
 // Create grid
 function createGrid(n) {
