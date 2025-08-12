@@ -1,54 +1,92 @@
 let isMouseDown = false;
+let gridSize = 16; // starting grid size
+const minGrid = 1; // smallest size
+const maxGrid = 640; // largest size
+let erase = false;
+let clear = false;
+
+
+let knobRotation = 0;
+let isRotating = false;
+
+const container = document.querySelector(".screen");
+const leftKnob = document.querySelector(".knob.left");
+const eraserBtn = document.getElementById("eraser");
+const rightKnob = document.querySelector(".knob.right");
+const clearBtn = document.getElementById("clear");
+
 // Track mouse button state
 document.addEventListener("mousedown", () => (isMouseDown = true));
 document.addEventListener("mouseup", () => (isMouseDown = false));
 
-// Clear button functionality
-const clearBtn = document.getElementById("reset");
+// Reset button
 clearBtn.addEventListener("click", () => {
-  const boxes = document.querySelectorAll(".square");
+  const boxes = document.querySelectorAll(".cell");
   boxes.forEach((box) => {
-    box.style.backgroundColor = "white"; // Reset background
-    box.dataset.darkness = 0; // Reset darkness level
+    box.style.backgroundColor = "white";
+    box.dataset.darkness = 0;
   });
 });
 
-const container = document.querySelector(".screen");
 
+// Create grid
 function createGrid(n) {
-  container.innerHTML = ""; // Clear old grid
+  container.innerHTML = "";
 
   for (let i = 0; i < n * n; i++) {
     const box = document.createElement("div");
-    box.classList.add("square");
+    box.classList.add("cell");
     box.style.flex = `0 0 ${100 / n}%`;
-    container.appendChild(box);
-
-    // Store darkness level (0 = white)
     box.dataset.darkness = 0;
 
-    // Darken only when mouse is pressed and moving over the box
     box.addEventListener("mouseover", () => {
       if (isMouseDown) {
-        let darkness = parseInt(box.dataset.darkness);
-        if (darkness < 10) {
-          darkness++;
-          box.dataset.darkness = darkness;
-          box.style.backgroundColor = `rgba(0, 0, 0, ${darkness * 0.1})`;
-        }
+        darken(box);
       }
     });
 
-    // Also allow single-click shading
     box.addEventListener("mousedown", () => {
-      let darkness = parseInt(box.dataset.darkness);
-      if (darkness < 10) {
-        darkness++;
-        box.dataset.darkness = darkness;
-        box.style.backgroundColor = `rgba(0, 0, 0, ${darkness * 0.1})`;
-      }
+      darken(box);
     });
+
+    container.appendChild(box);
   }
 }
 
-createGrid(160);
+function darken(box) {
+  let darkness = parseInt(box.dataset.darkness);
+  if (darkness < 10) {
+    darkness++;
+    box.dataset.darkness = darkness;
+    box.style.backgroundColor = `rgba(0, 0, 0, ${darkness * 0.1})`;
+  }
+}
+
+// Knob rotation logic
+leftKnob.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+  isRotating = true;
+});
+
+document.addEventListener("mouseup", () => {
+  isRotating = false;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isRotating) return;
+
+  // Determine rotation based on mouse movement
+  knobRotation += e.movementY * -0.5; // drag up = clockwise, down = anticlockwise
+  leftKnob.style.transform = `rotate(${knobRotation}deg)`;
+
+  // Adjust grid size proportionally
+  let newSize = Math.round(gridSize + e.movementY * -0.1);
+  newSize = Math.max(minGrid, Math.min(maxGrid, newSize));
+
+  if (newSize !== gridSize) {
+    gridSize = newSize;
+    createGrid(gridSize);
+  }
+});
+
+createGrid(gridSize);
