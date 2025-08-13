@@ -109,6 +109,7 @@ body {
   right: 40px;
 }
 
+
 button {
   width: 50px;
   height: 20px;
@@ -121,7 +122,7 @@ button {
 }
 
 
-#eraser.active{
+#eraser.active, #pencil.active{
   background-color: #f6ff45;
 }
 
