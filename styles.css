@@ -120,8 +120,9 @@ button {
   font-size: 1rem;
 }
 
-#eraser.active {
-  background-color: #ffcccb;
+
+#eraser.active{
+  background-color: #f6ff45;
 }
 
 .screen {

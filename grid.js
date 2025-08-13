@@ -18,13 +18,20 @@ const clearBtn = document.getElementById("clear");
 document.addEventListener("mousedown", () => (isMouseDown = true));
 document.addEventListener("mouseup", () => (isMouseDown = false));
 
-// Reset button
+// Clear button
 clearBtn.addEventListener("click", () => {
   const boxes = document.querySelectorAll(".cell");
   boxes.forEach((box) => {
     box.style.backgroundColor = "white";
     box.dataset.darkness = 0;
   });
+});
+
+// Eraser button
+eraserBtn.addEventListener("click", () => {
+  isEraser = !isEraser;
+  eraserBtn.classList.toggle("active", isEraser);
+  
 });
 
 // Create grid
@@ -39,25 +46,30 @@ function createGrid(n) {
 
     box.addEventListener("mouseover", () => {
       if (isMouseDown) {
-        darken(box);
+        handleCellInteraction(box);
       }
     });
 
     box.addEventListener("mousedown", () => {
-      darken(box);
+      handleCellInteraction(box);
     });
 
     container.appendChild(box);
   }
 }
 
-function darken(box) {
-  let darkness = parseInt(box.dataset.darkness);
-  if (darkness < 10) {
-    darkness++;
-    box.dataset.darkness = darkness;
-    box.style.backgroundColor = `rgba(0, 0, 0, ${darkness * 0.1})`;
-  }
+function handleCellInteraction(box) {
+    if (isEraser) {
+        box.style.backgroundColor = "white";
+        box.dataset.darkness = 0;
+    } else {
+        let darkness = parseInt(box.dataset.darkness);
+        if (darkness < 10) {
+            darkness++;
+            box.dataset.darkness = darkness;
+            box.style.backgroundColor = `rgba(0, 0, 0, ${darkness * 0.1})`;
+        }
+    }
 }
 
 // Knob rotation logic
