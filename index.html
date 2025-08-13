@@ -7,24 +7,47 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="main">
-      <div class="help-desk">
-        <h1>Help</h1>
-        <p>Drag the left knob 'L' to change the grid size.</p>
-        <p>drag up TO down = REMOVE CELLS, drag down TO up = ADD CELLS</p>
-      </div>
-      <div class="container">
+    <main class="main">
+      <!-- Help Panel -->
+      <aside class="help-desk collapsed" aria-label="Help Instructions">
+        <button id="help-toggle" aria-label="Toggle Help Panel">❔</button>
+        <div class="help-content">
+          <h1>Help!</h1>
+          <ul class="help-list">
+            <li>Drag the left knob 'L' to change the grid size</li>
+            <li>Drag up to down → remove cells</li>
+            <li>Drag down to up → add cells</li>
+            <li>Drag the right knob 'R' to change the color</li>
+            <li>Double click 'R' to pick color</li>
+            <li>Click "Pencil" to toggle between color and pencil</li>
+            <li>Click "Clear" to reset the screen</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Etch-a-Sketch Container -->
+      <div class="container" aria-label="Etch a Sketch Drawing Board">
         <h1>Etch-a-Sketch</h1>
-        <div class="screen"></div>
+        <div class="screen" aria-label="Drawing area"></div>
         <div class="controls">
-          <div class="knob left"></div>
-          <button id="eraser">Eraser</button>
-          <button id="pencil">Pencil</button>
-          <button id="clear">Clear</button>
-          <div class="knob right"></div>
+          <div
+            class="knob left"
+            aria-label="Grid size knob"
+            role="button"
+          ></div>
+          <button id="eraser" aria-label="Eraser tool">Eraser</button>
+          <button id="pencil" aria-label="Pencil tool">Pencil</button>
+          <button id="clear" aria-label="Clear screen">Clear</button>
+          <div
+            class="knob right"
+            aria-label="Color selector knob"
+            role="button"
+          ></div>
         </div>
       </div>
-    </div>
+    </main>
+
     <script src="grid.js" defer></script>
+    <script src="help.js" defer></script>
   </body>
 </html>
